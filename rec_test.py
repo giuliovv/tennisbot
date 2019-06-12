@@ -8,7 +8,7 @@ import time
 
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
-pts = deque(64)
+pts = deque(maxlen=64)
 
 cap = cv2.VideoCapture(1)
 

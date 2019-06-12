@@ -4,7 +4,7 @@ import argparse
 import cv2
 import imutils
 
-greenLower = (29, 86, 6)
+greenLower = (29, 86, 20)
 greenUpper = (64, 255, 255)
 pts = deque(maxlen=64)
 

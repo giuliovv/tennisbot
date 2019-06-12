@@ -9,6 +9,7 @@ import time
 
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
+pts = deque(64)
 
 cap = cv2.VideoCapture(1)
 
@@ -73,7 +74,7 @@ while True:
 		cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
  
 	# show the frame to our screen
-	cv2.imshow("Frame", frame)qwq
+	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
  
 	# if the 'q' key is pressed, stop the loop

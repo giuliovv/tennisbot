@@ -6,38 +6,22 @@ import argparse
 import cv2
 import imutils
 import time
- 
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video",
-	help="path to the (optional) video file")
-ap.add_argument("-b", "--buffer", type=int, default=64,
-	help="max buffer size")
-args = vars(ap.parse_args())
 
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
-pts = deque(maxlen=args["buffer"])
 
-vs = VideoStream(src=1).start()
+cap = cv2.VideoCapture(1)
 
-time.sleep(2)
+cap.set(cv2.CAP_PROP_FPS, 10)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 352)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
 while True:
 	# grab the current frame
-	frame = vs.read()
- 
-	# handle the frame from VideoCapture or VideoStream
-	frame = frame[1] if args.get("video", False) else frame
- 
-	# if we are viewing a video and we did not grab a frame,
-	# then we have reached the end of the video
-	if frame is None:
-		break
+	ret, frame = cap.read()
  
 	# resize the frame, blur it, and convert it to the HSV
 	# color space
-	frame = imutils.resize(frame, width=600)
 	blurred = cv2.GaussianBlur(frame, (11, 11), 0)
 	hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
  
@@ -75,7 +59,7 @@ while True:
 
 	# update the points queue
 	pts.appendleft(center)
-	
+
 	# loop over the set of tracked points
 	for i in range(1, len(pts)):
 		# if either of the tracked points are None, ignore
@@ -89,20 +73,12 @@ while True:
 		cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
  
 	# show the frame to our screen
-	cv2.imshow("Frame", frame)
+	cv2.imshow("Frame", frame)qwq
 	key = cv2.waitKey(1) & 0xFF
  
 	# if the 'q' key is pressed, stop the loop
 	if key == ord("q"):
 		break
  
-# if we are not using a video file, stop the camera video stream
-if not args.get("video", False):
-	vs.stop()
- 
-# otherwise, release the camera
-else:
-	vs.release()
- 
-# close all windows
+cap.release()
 cv2.destroyAllWindows()

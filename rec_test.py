@@ -6,8 +6,8 @@ import cv2
 import imutils
 import time
 
-greenLower = (81, 87, 0)
-greenUpper = (110, 255, 49)
+greenLower = (29, 86, 6)
+greenUpper = (64, 255, 255)
 pts = deque(maxlen=64)
 
 cap = cv2.VideoCapture(1)

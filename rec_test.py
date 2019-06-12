@@ -1,10 +1,8 @@
-# import the necessary packages
 from collections import deque
 import numpy as np
 import argparse
 import cv2
 import imutils
-import time
 
 greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
@@ -17,7 +15,6 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, 352)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
 while True:
-	# grab the current frame
 	ret, frame = cap.read()
  
 	# resize the frame, blur it, and convert it to the HSV
@@ -44,7 +41,7 @@ while True:
 		# find the largest contour in the mask, then use
 		# it to compute the minimum enclosing circle and
 		# centroid
-		c = max(cnts, key=cv2.contourArea)
+		c = max(cnts, key = cv2.contourArea)
 		((x, y), radius) = cv2.minEnclosingCircle(c)
 		M = cv2.moments(c)
 		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
@@ -60,12 +57,9 @@ while True:
 	# update the points queue
 	pts.appendleft(center)
  
-	# show the frame to our screen
 	cv2.imshow("Frame", frame)
-	key = cv2.waitKey(1) & 0xFF
  
-	# if the 'q' key is pressed, stop the loop
-	if key == ord("q"):
+	if cv2.waitKey(1) & 0xFF == ord("q"):
 		break
  
 cap.release()
